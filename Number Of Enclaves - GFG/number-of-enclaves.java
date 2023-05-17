@@ -59,8 +59,10 @@ class Solution {
         int cnt=0;
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
+                // System.out.print(vis[i][j]+" ");
                 if(vis[i][j]==0 && grid[i][j]==1)cnt++;
             }
+            // System.out.println();
         }
         return cnt;
     }
