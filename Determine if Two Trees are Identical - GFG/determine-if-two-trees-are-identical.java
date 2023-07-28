@@ -137,10 +137,8 @@ class Solution
 	    if(root1==null && root2!=null)return false;
 	    if(root2==null && root1!=null)return false;
 	    if(root1.data!=root2.data)return false;
-	    if(root1!=null && root2!=null){
-	        if(!isIdentical(root1.left,root2.left) || !isIdentical(root1.right,root2.right))
+	    if(!isIdentical(root1.left,root2.left) || !isIdentical(root1.right,root2.right))
 	            return false;
-	    }
 	    return true;
 	}
 	
