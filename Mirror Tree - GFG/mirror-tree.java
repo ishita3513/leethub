@@ -130,10 +130,23 @@ class Solution {
     void mirror(Node node) {
         // Your code here
         if(node==null)return;
-        Node l=node.left;
-        node.left=node.right;
-        node.right=l;
-        mirror(node.left);
-        mirror(node.right);
+        Queue<Node>q=new LinkedList<>();
+        q.add(node);
+        while(!q.isEmpty()){
+            int siz=q.size();
+            for(int i=0;i<siz;i++){
+                Node t=q.poll();
+                Node l=t.left;
+                t.left=t.right;
+                t.right=l;
+                if(t.left!=null)q.add(t.left);
+                if(t.right!=null)q.add(t.right);
+            }
+        }
+        // Node l=node.left;
+        // node.left=node.right;
+        // node.right=l;
+        // mirror(node.left);
+        // mirror(node.right);
     }
 }
