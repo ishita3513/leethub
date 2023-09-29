@@ -11,24 +11,24 @@ import java.io.*;
 
 class GFG {
     public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        int T = sc.nextInt();
+        BufferedReader in=new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter out=new PrintWriter(System.out);
+        int T = Integer.parseInt(in.readLine());
         while (T-- > 0) {
-            int n = sc.nextInt();
-            int m = sc.nextInt();
-            int[][] grid = new int[n][m];
-
+            String s[] = in.readLine().trim().split(" ");
+            int n = Integer.parseInt(s[0]);
+            int m = Integer.parseInt(s[1]);
+            int a[][] = new int[n][m];
             for (int i = 0; i < n; i++) {
-
+                s = in.readLine().trim().split(" ");
                 for (int j = 0; j < m; j++) {
-                    grid[i][j] = sc.nextInt();
+                    a[i][j] = Integer.parseInt(s[j]);
                 }
             }
-
             Solution ob = new Solution();
-            int ans = ob.numberOfEnclaves(grid);
-            System.out.println(ans);
+            out.println(ob.numberOfEnclaves(a));
         }
+        out.close();
     }
 }
 // } Driver Code Ends
@@ -37,40 +37,22 @@ class GFG {
 // User function Template for Java
 
 class Solution {
-    int numberOfEnclaves(int grid[][]){
-        int n=grid.length,m=grid[0].length;
+    void dfs(int i, int j,int[][] grid,int[][] vis){
+        if(i>=grid.length || j>=grid[0].length || i<0 || j<0 ||vis[i][j]==1 || grid[i][j]==0)return;
+        vis[i][j]=1;
+        int[][] dirs={{-1,0},{1,0},{0,-1},{0,1}};
+        for(int[] dir:dirs){
+            if(grid[i][j]==1)dfs(i+dir[0],j+dir[1],grid,vis);
+        }
+    }
+    int numberOfEnclaves(int[][] grid) {
+        int n=grid.length;
+        int m=grid[0].length;
         int[][] vis=new int[n][m];
-        Queue<List<Integer>>q=new LinkedList<>();
-        
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
-                if((i==0 || j==0 ||i==n-1 || j==m-1) && grid[i][j]==1 ){
-                    // dfs(grid,i,j,vis);
-                    vis[i][j]=1;
-                    List<Integer>list=new ArrayList<>();
-                    list.add(i);
-                    list.add(j);
-                    q.add(list);
-                }
-            }
-        }
-        
-        int[] delR={-1,0,1,0};
-        int[] delC={0,-1,0,1};
-        while(!q.isEmpty()){
-            int size=q.size();
-            int r=q.peek().get(0);
-            int c=q.peek().get(1);
-            q.poll();
-            for(int i=0;i<4;i++){
-                int nr=delR[i]+r;
-                int nc=delC[i]+c;
-                if(nr>=0 && nc>=0 && nr<n && nc<m && vis[nr][nc]==0 && grid[nr][nc]==1){
-                    vis[nr][nc]=1;
-                    List<Integer>list=new ArrayList<>();
-                    list.add(nr);
-                    list.add(nc);
-                    q.add(list);
+                if((i==0 || j==0 || i==n-1 || j==m-1) && grid[i][j]==1){
+                    dfs(i,j,grid,vis);
                 }
             }
         }
@@ -78,7 +60,7 @@ class Solution {
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
                 // System.out.print(vis[i][j]+" ");
-                if(vis[i][j]==0 && grid[i][j]==1)cnt++;;
+                if(vis[i][j]==0 && grid[i][j]==1)cnt++;
             }
             // System.out.println();
         }
